@@ -9,25 +9,25 @@ class database:
     def __init__(self, **kwargs):
         self.filename = kwargs.get('filename')
         self.table = kwargs.get('table', 'test')
-    
+
     def sql_do(self, sql, *params):
         self._db.execute(sql, params)
         self._db.commit()
-    
+
     def insert(self, row):
         self._db.execute('insert into {} (t1, i1) values (?, ?)'.format(self._table), (row['t1'], row['i1']))
         self._db.commit()
-    
+
     def retrieve(self, key):
         cursor = self._db.execute('select * from {} where t1 = ?'.format(self._table), (key,))
         return dict(cursor.fetchone())
-    
+
     def update(self, row):
         self._db.execute(
-            'update {} set i1 = ? where t1 = ?'.format(self._table),
-            (row['i1'], row['t1']))
+                'update {} set i1 = ? where t1 = ?'.format(self._table),
+                (row['i1'], row['t1']))
         self._db.commit()
-    
+
     def delete(self, key):
         self._db.execute('delete from {} where t1 = ?'.format(self._table), (key,))
         self._db.commit()
@@ -62,7 +62,7 @@ class database:
     def table(self): self._table = 'test'
 
     def close(self):
-            self._db.close()
+        self._db.close()
             del self._filename
 
 def main():
